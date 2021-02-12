@@ -8,6 +8,8 @@ namespace Portfolio.Models
     public class Image
     {
         public int Id { get; set; }
+        public int UserId { get; set; }
+        public int SkillId { get; set; }
         public string Name { get; set; }
         public bool Avatar_key { get; set; }
         public User User { get; set; }  // User for images
