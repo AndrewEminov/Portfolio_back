@@ -7,9 +7,9 @@ namespace Portfolio.ViewModels
 {
     public class SkillViewModel
     {
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Assessment { get; set; }
-        public string ImageData { get; set; }
+        public int Id { get; set; }
+        public int SkillVal { get; set; }
+        public SkillAppViewModel SkillApp { get; set; }
+
     }
 }

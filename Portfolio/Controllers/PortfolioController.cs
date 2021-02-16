@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Portfolio.Controllers.Infrastructure.Mappings;
 using Portfolio.ModelsDTO;
 using Portfolio.Services.Interfaces;
 using Portfolio.ViewModels;
@@ -14,11 +15,14 @@ namespace Portfolio.Controllers
     [Route("[controller]")]
     public class PortfolioController : ControllerBase
     {
-        private IUserService _portfolioService;
+        private IProtfolioService _portfolioService;
+        private readonly IMapper _mapper;
 
-        public PortfolioController(IUserService portfolioService)
+        public PortfolioController(IProtfolioService portfolioService, IMapper mapper)
         {
             _portfolioService = portfolioService;
+            _mapper = mapper;
+
         }
 
 
@@ -32,59 +36,22 @@ namespace Portfolio.Controllers
                 return BadRequest("User is not found");
             }
 
-            var config = new MapperConfiguration(cfg => cfg.CreateMap<PortfolioDTO, PortfolioViewModel>());
-            var mapper = new Mapper(config);
-            var portfolio = mapper.Map<PortfolioViewModel>(portfolioDto);
+            var portfolio = _mapper.Map<PortfolioViewModel>(portfolioDto);
 
             return portfolio;
         }
 
         [HttpPost("[action]")]
         //[Authorize]
-
         public async Task<ActionResult<PortfolioViewModel>> Update(PortfolioViewModel data, string token)
         {
-            var userConfig = new MapperConfiguration(cfg => cfg.CreateMap<PortfolioViewModel, UserDTO>()
-               .ForMember(e => e.About_me, opt => opt.MapFrom(e => e.AboutAuthor))
-            );
-            var userMapper = new Mapper(userConfig);
-            var user = userMapper.Map<UserDTO>(data);
 
-            var portfolioConfig = new MapperConfiguration(cfg => cfg.CreateMap<PortfolioViewModel, ProductDTO>()
-               .ForMember(e => e.Description, opt => opt.MapFrom(e => e.Products.Select(e => e.Description)))
-               .ForMember(e => e.Name, opt => opt.MapFrom(e => e.Products.Select(e => e.Name)))
-               .ForMember(e => e.ImagesData, opt => opt.MapFrom(e => e.Products.Select(e => e.ImagesData)))
-               .ForMember(e => e.Link, opt => opt.MapFrom(e => e.Products.Select(e => e.Link)))
-            );
-
-            var portfolioMapper = new Mapper(portfolioConfig);
-            var portfolio = portfolioMapper.Map<ProductDTO>(data);
-
-            var imageConfig = new MapperConfiguration(cfg => cfg.CreateMap<PortfolioViewModel, ImageDTO>()
-               .ForMember(e => e. , opt => opt.MapFrom(e => e. ))
-            );
-            var imageMapper = new Mapper(imageConfig);
-            var image = imageMapper.Map<ImageDTO>(data);
-
-            /*var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<Skill, SkillDTO>()
-                    .ForMember(e => e.ImageData, opt => opt.MapFrom(e => e.Image.Id));
-
-                cfg.CreateMap<Product, ProductDTO>()
-                    .ForMember(e => e.ImagesData, opt => opt.MapFrom(e => e.Images.Select(e => e.Id).ToList()));
-
-                cfg.CreateMap<User, PortfolioDTO>()
-                    .ForMember(e => e.AboutAuthor, opt => opt.MapFrom(e => e.About_me))
-                    .ForMember(e => e.Skills, opt => opt.MapFrom(e => e.Images.Select(e => e.Skill)))
-                    .ForMember(e => e.Products, opt => opt.MapFrom(e => e.Images.Select(e => e.Products)));
-            });*/
+            var portfolio = _mapper.Map<PortfolioDTO>(data);
 
 
+            var updatePortfolioDto = await _portfolioService.UpdatePortfolioData(portfolio);
 
-
-
-            return null;
+            return _mapper.Map<PortfolioViewModel>(updatePortfolioDto);
         }
     }
 }

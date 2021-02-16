@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Portfolio.ModelsDTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,9 +8,10 @@ namespace Portfolio.ViewModels
 {
     public class ProductDTO
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public string Link { get; set; }
-        public List<string> ImagesData { get; set; } 
+        public List<ProductImageDTO> ProductImages { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Portfolio.Models;
 using Portfolio.ModelsDTO;
 using Portfolio.ViewModels;
 using System;
@@ -8,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Portfolio.Services.Interfaces
 {
-    public interface IUserService
+    public interface IProtfolioService
     {
         public Task<PortfolioDTO> GetPortfolioData(string email);
-        public Task<bool> UpdateUserData(UserDTO data);
+        public Task<PortfolioDTO> UpdatePortfolioData(PortfolioDTO data);
     }
 }

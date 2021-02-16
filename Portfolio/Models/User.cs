@@ -12,9 +12,11 @@ namespace Portfolio.Models
         public string Password { get; set; }
         public string Name { get; set; }
         public string Sername { get; set; }
-        public string About_me { get; set; }
-        public string Instagram_link { get; set; }
-        public List<Image> Images { get; set; } = new List<Image>();
+        public string AboutMe { get; set; }
+        public string InstagramLink { get; set; }
+        public int AvatarImageId { get; set; }
+        public List<Product> Products { get; set; } = new List<Product>();
+        public List<Skill> Skills { get; set; } = new List<Skill>();
 
     }
 }

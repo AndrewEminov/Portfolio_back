@@ -8,10 +8,10 @@ namespace Portfolio.Models
     public class Skill
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public int Assessment { get; set; }
-        public Image Image { get; set; } 
-
+        public string UserId { get; set; }
+        public string SkillAppId { get; set; }
+        public int SkillVal { get; set; }
+        public User User { get; set; }
+        public SkillApp SkillApp { get; set; }
     }
 }

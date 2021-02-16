@@ -19,16 +19,21 @@ namespace Portfolio.Repositories
 
         public async Task<User> GetPortfolio(string userEmail)
         {
-
-           var userData = await db.Users
-                .Include(e => e.Images)
-                    .ThenInclude(e => e.Products)
-                        .ThenInclude(e => e.Images)
-                .Include(e => e.Images)
-                    .ThenInclude(e => e.Skill)
+            var userData = await db.Users
+                .Include(e => e.Products)
+                    .ThenInclude(e => e.ProductImages)
+                .Include(e => e.Skills)
+                    .ThenInclude(e => e.SkillApp)
                 .FirstOrDefaultAsync(e => e.Email == userEmail);
 
             return userData;
+        }
+
+        public async Task<User> UpdatePortfolio(User user)
+        {
+            db.Users.Update(user);
+            await db.SaveChangesAsync();
+            return user;
         }
     }
 }

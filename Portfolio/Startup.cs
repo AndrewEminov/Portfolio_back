@@ -1,8 +1,10 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Portfolio.Controllers.Infrastructure.Mappings;
 using Portfolio.Repositories;
 using Portfolio.Repositories.Interfaces;
 using Portfolio.Services;
@@ -24,12 +26,10 @@ namespace Portfolio
         {
             services.AddDbContext<PortfolioContext>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProtfolioService, PortfolioService>();
 
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllers();
-
-            // Register the Swagger generator, defining 1 or more Swagger documents
-            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

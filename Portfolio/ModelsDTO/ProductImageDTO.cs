@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Portfolio.ModelsDTO
 {
-    public class ImageDTO
+    public class ProductImageDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool Avatar_key { get; set; }
+        public string Url { get; set; }
     }
 }

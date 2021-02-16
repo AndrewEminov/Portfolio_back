@@ -9,8 +9,7 @@ namespace Portfolio.Repositories.Interfaces
     public interface IUserRepository
     {
         public Task<User> GetPortfolio(string userEmail);
+        public Task<User> UpdatePortfolio(User data);
 
-/*        public Task<User> UpdatePortfolio(User data);
-*/
     }
 }
