@@ -13,5 +13,7 @@ namespace Portfolio.Services.Interfaces
     {
         public Task<PortfolioDTO> GetPortfolioData(string email);
         public Task<PortfolioDTO> UpdatePortfolioData(PortfolioDTO data);
+        public Task<SkillAppDTO> CreateSkillApp(SkillAppDTO data);
+
     }
 }

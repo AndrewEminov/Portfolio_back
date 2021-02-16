@@ -25,7 +25,6 @@ namespace Portfolio.Controllers
 
         }
 
-
         [HttpGet("[action]")]
         public async Task<ActionResult<PortfolioViewModel>> Get(string email)
         {
@@ -51,6 +50,17 @@ namespace Portfolio.Controllers
             var updatePortfolioDto = await _portfolioService.UpdatePortfolioData(portfolio);
 
             return _mapper.Map<PortfolioViewModel>(updatePortfolioDto);
+        }
+
+        [HttpPost("[action]")]
+        //[Authorize] Admin
+        public async Task<ActionResult<PortfolioViewModel>> AddSkillApp(SkillAppViewModel data)
+        {
+            var skillApp = _mapper.Map<SkillAppDTO>(data);
+
+            var newSkillApp = await _portfolioService.CreateSkillApp(skillApp);
+
+            return null; //_mapper.Map<PortfolioViewModel>(updatePortfolioDto);
         }
     }
 }

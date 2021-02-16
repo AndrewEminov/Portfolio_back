@@ -45,5 +45,12 @@ namespace Portfolio.Services
             return _mapper.Map<PortfolioDTO>(userDataDTO); 
         }
 
+
+        public async Task<SkillAppDTO> CreateSkillApp(SkillAppDTO data)
+        {
+            return null;
+        }
+
+
     }
 }
