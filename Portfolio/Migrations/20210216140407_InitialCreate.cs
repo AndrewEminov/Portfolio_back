@@ -2,38 +2,36 @@
 
 namespace Portfolio.Migrations
 {
-    public partial class InitMigrate : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Products",
+                name: "Images",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.Id);
+                    table.PrimaryKey("PK_Images", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Skills",
+                name: "SkillsApp",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Assessment = table.Column<int>(type: "int", nullable: false)
+                    SkillImageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Skills", x => x.Id);
+                    table.PrimaryKey("PK_SkillsApp", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -46,8 +44,9 @@ namespace Portfolio.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Sername = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    About_me = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Instagram_link = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    AboutMe = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InstagramLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AvatarImageId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,31 +54,52 @@ namespace Portfolio.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Images",
+                name: "Products",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    SkillId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Avatar_key = table.Column<bool>(type: "bit", nullable: false)
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Images", x => x.Id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Images_Skills_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skills",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Images_Users_UserId",
+                        name: "FK_Products_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Skills",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: true),
+                    SkillAppId = table.Column<int>(type: "int", nullable: true),
+                    SkillVal = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Skills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Skills_SkillsApp_SkillAppId",
+                        column: x => x.SkillAppId,
+                        principalTable: "SkillsApp",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Skills_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,14 +132,18 @@ namespace Portfolio.Migrations
                 column: "ProductsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Images_SkillId",
-                table: "Images",
-                column: "SkillId",
-                unique: true);
+                name: "IX_Products_UserId",
+                table: "Products",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Images_UserId",
-                table: "Images",
+                name: "IX_Skills_SkillAppId",
+                table: "Skills",
+                column: "SkillAppId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Skills_UserId",
+                table: "Skills",
                 column: "UserId");
         }
 
@@ -129,13 +153,16 @@ namespace Portfolio.Migrations
                 name: "ImageProduct");
 
             migrationBuilder.DropTable(
+                name: "Skills");
+
+            migrationBuilder.DropTable(
                 name: "Images");
 
             migrationBuilder.DropTable(
                 name: "Products");
 
             migrationBuilder.DropTable(
-                name: "Skills");
+                name: "SkillsApp");
 
             migrationBuilder.DropTable(
                 name: "Users");

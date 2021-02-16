@@ -14,7 +14,7 @@ namespace Portfolio.Models
         public string Sername { get; set; }
         public string AboutMe { get; set; }
         public string InstagramLink { get; set; }
-        public int AvatarImageId { get; set; }
+        public int? AvatarImageId { get; set; }
         public List<Product> Products { get; set; } = new List<Product>();
         public List<Skill> Skills { get; set; } = new List<Skill>();
 

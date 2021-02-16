@@ -27,8 +27,23 @@ namespace Portfolio
             services.AddDbContext<PortfolioContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IProtfolioService, PortfolioService>();
+            services.AddSwaggerGen();
 
             services.AddAutoMapper(typeof(Startup));
+
+            /*// Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new PortfolioMapper());
+                mc.AddProfile(new PortfolioMapperService());
+
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
+            services.AddMvc();*/
+
             services.AddControllers();
         }
 

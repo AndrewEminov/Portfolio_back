@@ -21,7 +21,7 @@ namespace Portfolio.Repositories
         {
             var userData = await db.Users
                 .Include(e => e.Products)
-                    .ThenInclude(e => e.ProductImages)
+                    .ThenInclude(e => e.Images)
                 .Include(e => e.Skills)
                     .ThenInclude(e => e.SkillApp)
                 .FirstOrDefaultAsync(e => e.Email == userEmail);

@@ -45,7 +45,6 @@ namespace Portfolio.Controllers
         //[Authorize]
         public async Task<ActionResult<PortfolioViewModel>> Update(PortfolioViewModel data, string token)
         {
-
             var portfolio = _mapper.Map<PortfolioDTO>(data);
 
 

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Portfolio.Models
 {
-    public class ProductImage
+    public class Image
     {
         public int Id { get; set; }
         public string Name { get; set; }
