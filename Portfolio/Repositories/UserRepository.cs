@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Portfolio.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : GenericRepository<User>, IUserRepository
     {
         PortfolioContext db;
 
-        public UserRepository(PortfolioContext context)
+        public UserRepository(PortfolioContext context) : base(context)
         {
             db = context;
         }
@@ -31,6 +31,16 @@ namespace Portfolio.Repositories
             db.Users.Update(user);
             await db.SaveChangesAsync();
             return user;
+        }
+
+        public async Task<bool> CheckUserByEmail(string email)
+        {
+            return await db.Users.AnyAsync(user => user.Email == email);
+        }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await db.Users.FirstOrDefaultAsync(user => user.Email == email);
         }
     }
 }

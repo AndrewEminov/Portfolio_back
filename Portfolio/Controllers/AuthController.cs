@@ -1,7 +1,8 @@
-﻿/*using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Portfolio.ModelsDTO;
+using Portfolio.Services.Interfaces;
+using Portfolio.ViewModels;
 using System.Threading.Tasks;
 
 namespace Portfolio.Controllers
@@ -12,21 +13,18 @@ namespace Portfolio.Controllers
 
 
         private IUserService _userService;
+        private IMapper _mapper;
 
-        public AuthController(IUserService userService)
+        public AuthController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<User>> Login(LoginUserViewModel data)
+        public async Task<ActionResult<UserViewModel>> Login(string email, string password)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = await _userService.LoginUser(data.Login, data.Password);
+            var user = await _userService.LoginUser(email, password);
 
             if (user == null)
             {
@@ -52,15 +50,17 @@ namespace Portfolio.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ActionResult<User>> Register(UserDTO data)
+        public async Task<ActionResult<UserViewModel>> Register(UserViewModel data)
         {
             bool checkEmail = await _userService.CheckEmail(data.Email);
 
             if (!checkEmail)
             {
-                var client = await _userService.AddNewUser(data, this.headerOrigin);
-                return Ok(client);
+                var user = _mapper.Map<UserDTO>(data);
 
+                await _userService.AddNewUser(user, this.headerOrigin);
+
+                return Ok(_mapper.Map<UserViewModel>(data));
             }
             else
             {
@@ -68,7 +68,7 @@ namespace Portfolio.Controllers
             }
         }
 
-        [Route("google-auth")]
+/*        [Route("google-auth")]
         [HttpPost]
         public async Task<ActionResult<object>> GoogleAuth(string providerToken)
         {
@@ -96,12 +96,10 @@ namespace Portfolio.Controllers
 
             var googleAuthUser = JsonConvert.DeserializeObject<GoogleUserDTO>(response);
 
-
-
-            *//* if (googleAuthUser.aud)
-             {
+            if (googleAuthUser.aud)
+            {
                 return BadRequest();
-            }*//*
+            }
 
             bool checkEmail = await _userService.CheckEmail(googleAuthUser.email);
 
@@ -135,10 +133,9 @@ namespace Portfolio.Controllers
 
 
             return Ok(new { access_token = encodedJwt, username = user.Email });
-        }
+        }*/
 
-        [HttpPost("[action]")]
-        [HttpPost("[action]")]
+/*        [HttpPost("[action]")]
         public async Task<ActionResult<User>> ProfileConfirmation(string tokenEmail)
         {
 
@@ -180,6 +177,5 @@ namespace Portfolio.Controllers
 
             return Ok(user);
         }
-    }
+    }*/
 }
-*/
