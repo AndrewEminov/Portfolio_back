@@ -26,7 +26,9 @@ namespace Portfolio
         {
             services.AddDbContext<PortfolioContext>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ISkillAppRepository, SkillAppRepository>();
             services.AddScoped<IProtfolioService, PortfolioService>();
+
             services.AddSwaggerGen();
 
             services.AddAutoMapper(typeof(Startup));

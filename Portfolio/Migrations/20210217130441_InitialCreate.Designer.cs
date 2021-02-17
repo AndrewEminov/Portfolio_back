@@ -10,7 +10,7 @@ using Portfolio;
 namespace Portfolio.Migrations
 {
     [DbContext(typeof(PortfolioContext))]
-    [Migration("20210216140407_InitialCreate")]
+    [Migration("20210217130441_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

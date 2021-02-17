@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Portfolio.Repositories.Interfaces
 {
-    public interface IUserRepository
+    public interface ISkillAppRepository : IGenericRepository<SkillApp>
     {
-        public Task<User> GetPortfolio(string userEmail);
-        public Task<User> UpdatePortfolio(User data);
+
     }
 }
+

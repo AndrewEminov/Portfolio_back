@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Portfolio.Controllers.Infrastructure.Mappings;
 using Portfolio.ModelsDTO;
 using Portfolio.Services.Interfaces;
 using Portfolio.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Portfolio.Controllers
@@ -54,13 +50,12 @@ namespace Portfolio.Controllers
 
         [HttpPost("[action]")]
         //[Authorize] Admin
-        public async Task<ActionResult<PortfolioViewModel>> AddSkillApp(SkillAppViewModel data)
+        public async Task<ActionResult<SkillAppViewModel>> AddSkillApp(SkillAppViewModel data)
         {
             var skillApp = _mapper.Map<SkillAppDTO>(data);
-
             var newSkillApp = await _portfolioService.CreateSkillApp(skillApp);
 
-            return null; //_mapper.Map<PortfolioViewModel>(updatePortfolioDto);
+            return _mapper.Map<SkillAppViewModel>(newSkillApp);
         }
     }
 }

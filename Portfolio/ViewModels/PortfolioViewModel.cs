@@ -7,7 +7,7 @@ namespace Portfolio.ViewModels
 {
     public class PortfolioViewModel
     {
-        public string Id { get; set; }
+        public int? Id { get; set; }
         public string Name { get; set; }
         public string Sername { get; set; }
         public string AboutMe { get; set; }

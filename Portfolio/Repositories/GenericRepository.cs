@@ -3,6 +3,7 @@ using Portfolio.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Portfolio.Repositories
@@ -18,33 +19,41 @@ namespace Portfolio.Repositories
             _dbSet = context.Set<TEntity>();
         }
 
-        public IEnumerable<TEntity> Get()
+        public async Task<IEnumerable<TEntity>> Get()
         {
-            return _dbSet.AsNoTracking().ToList();
+            return await _dbSet.AsNoTracking().ToListAsync();
         }
-        public IEnumerable<TEntity> Get(Func<TEntity, bool> predicate)
+        public async Task<IEnumerable<TEntity>> Get(Expression<Func<TEntity, bool>> predicate)
         {
-            return _dbSet.AsNoTracking().Where(predicate).ToList();
+            return await _dbSet.AsNoTracking().Where(predicate).ToListAsync();
         }
-        public TEntity FindById(int id)
+        public async Task<TEntity> FindById(int id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public void Create(TEntity item)
+        public async Task<TEntity> Create(TEntity item)
         {
-            _dbSet.Add(item);
-            _context.SaveChanges();
+            await _dbSet.AddAsync(item);
+            await _context.SaveChangesAsync();
+
+            return item;
         }
-        public void Update(TEntity item)
+        public async Task<TEntity> Update(TEntity item)
         {
-            _context.Entry(item).State = EntityState.Modified;
-            _context.SaveChanges();
+            //_context.Entry(item).State = EntityState.Modified;
+            _dbSet.Update(item);
+            await _context.SaveChangesAsync();
+
+            return item;
+
         }
-        public void Remove(TEntity item)
+        public async Task<TEntity> Remove(TEntity item)
         {
             _dbSet.Remove(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
+
+            return item;
         }
     }
 }

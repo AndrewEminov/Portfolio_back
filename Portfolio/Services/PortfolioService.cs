@@ -14,11 +14,14 @@ namespace Portfolio.Services
     public class PortfolioService : IProtfolioService
     {
         private IUserRepository _portfolioRepository;
+        private ISkillAppRepository _skillAppRepository;
         private readonly IMapper _mapper;
 
-        public PortfolioService(IUserRepository portfolioRepository, IMapper mapper)
+        public PortfolioService(IUserRepository portfolioRepository, ISkillAppRepository skillAppRepository, IMapper mapper)
         {
             _portfolioRepository = portfolioRepository;
+            _skillAppRepository = skillAppRepository;
+
             _mapper = mapper;
         }
 
@@ -38,17 +41,20 @@ namespace Portfolio.Services
 
         public async Task<PortfolioDTO> UpdatePortfolioData(PortfolioDTO data)
         {
-            var user = _mapper.Map<User>(data);
+            var user = _mapper.Map<User>(data); 
 
             var userDataDTO = await _portfolioRepository.UpdatePortfolio(user);
 
             return _mapper.Map<PortfolioDTO>(userDataDTO); 
         }
 
-
         public async Task<SkillAppDTO> CreateSkillApp(SkillAppDTO data)
         {
-            return null;
+            var skillApp = _mapper.Map<SkillApp>(data);
+
+            var newSkillApp = await _skillAppRepository.Create(skillApp);
+
+            return _mapper.Map<SkillAppDTO>(newSkillApp); 
         }
 
 

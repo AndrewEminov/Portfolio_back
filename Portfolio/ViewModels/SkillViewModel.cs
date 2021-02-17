@@ -7,8 +7,8 @@ namespace Portfolio.ViewModels
 {
     public class SkillViewModel
     {
-        public int Id { get; set; }
-        public int SkillVal { get; set; }
+        public int? Id { get; set; }
+        public int? SkillVal { get; set; }
         public SkillAppViewModel SkillApp { get; set; }
 
     }
