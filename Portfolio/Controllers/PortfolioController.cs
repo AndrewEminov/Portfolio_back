@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Portfolio.ModelsDTO;
 using Portfolio.Services.Interfaces;
@@ -37,8 +38,8 @@ namespace Portfolio.Controllers
         }
 
         [HttpPost("[action]")]
-        //[Authorize]
-        public async Task<ActionResult<PortfolioViewModel>> Update(PortfolioViewModel data, string token)
+        [Authorize]
+        public async Task<ActionResult<PortfolioViewModel>> Update(PortfolioViewModel data)
         {
             var portfolio = _mapper.Map<PortfolioDTO>(data);
 
@@ -49,7 +50,7 @@ namespace Portfolio.Controllers
         }
 
         [HttpPost("[action]")]
-        //[Authorize] Admin
+        [Authorize] //  [Authorize(Roles = "admin")] need create for admin
         public async Task<ActionResult<SkillAppViewModel>> AddSkillApp(SkillAppViewModel data)
         {
             var skillApp = _mapper.Map<SkillAppDTO>(data);

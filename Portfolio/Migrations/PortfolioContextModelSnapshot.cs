@@ -137,8 +137,20 @@ namespace Portfolio.Migrations
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("FacebookAuth")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("GoogleAuth")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("IdentityToken")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("InstagramLink")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsConfirmed")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");

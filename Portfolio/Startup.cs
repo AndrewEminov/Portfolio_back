@@ -1,9 +1,12 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Portfolio.Controllers.Infrastructure.Extensions;
 using Portfolio.Controllers.Infrastructure.Mappings;
 using Portfolio.Repositories;
 using Portfolio.Repositories.Interfaces;
@@ -28,23 +31,29 @@ namespace Portfolio
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ISkillAppRepository, SkillAppRepository>();
             services.AddScoped<IProtfolioService, PortfolioService>();
+            services.AddScoped<IUserService, UserService>();
+
+
 
             services.AddSwaggerGen();
 
             services.AddAutoMapper(typeof(Startup));
 
-            /*// Auto Mapper Configurations
-            var mappingConfig = new MapperConfiguration(mc =>
-            {
-                mc.AddProfile(new PortfolioMapper());
-                mc.AddProfile(new PortfolioMapperService());
-
-            });
-
-            IMapper mapper = mappingConfig.CreateMapper();
-            services.AddSingleton(mapper);
-
-            services.AddMvc();*/
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    .AddJwtBearer(options =>
+                    {
+                        options.RequireHttpsMetadata = false;
+                        options.TokenValidationParameters = new TokenValidationParameters
+                        {
+                            ValidateIssuer = true,
+                            ValidIssuer = JwtAuthOptions.ISSUER,
+                            ValidateAudience = true,
+                            ValidAudience = JwtAuthOptions.AUDIENCE,
+                            ValidateLifetime = true,
+                            IssuerSigningKey = JwtAuthOptions.GetSymmetricSecurityKey(),
+                            ValidateIssuerSigningKey = true,
+                        };
+                    });
 
             services.AddControllers();
         }
