@@ -19,7 +19,7 @@ namespace Portfolio
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-EQ0EU6U\\SQLEXPRESS;Initial Catalog=portfolio;Integrated Security=True");
+            optionsBuilder.UseSqlServer("Data Source=ANDREW\\SQLEXPRESS;Initial Catalog=portfolio;Integrated Security=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -27,11 +27,7 @@ namespace Portfolio.Services
             var user = _mapper.Map<User>(userDTO);
 
             user.IdentityToken = CryptoExtension.ToMD5(RandomToken.RandomString(10));
-
-
-
-      /*    User data = mapper.Map<UserDTO, User>(user);
-            data.IdentityToken = CryptoExtension.ToMD5(RandomToken.RandomString(10));*/
+            user.Password = CryptoExtension.ToMD5(user.Password);
 
             var newUser = await _userRepository.Create(user);
 
